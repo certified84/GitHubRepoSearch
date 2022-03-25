@@ -1,16 +1,11 @@
-package com.certified.githubreposearcch
+package com.certified.githubreposearcch.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,14 +13,27 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.certified.githubreposearcch.R
 import com.certified.githubreposearcch.data.model.Repo
 import com.certified.githubreposearcch.ui.theme.GitHubRepoSearchTheme
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val viewModel: SearchRepositoriesViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContent {
             GitHubRepoSearchTheme {
@@ -52,6 +60,7 @@ class MainActivity : ComponentActivity() {
                             onValueChange = { text = it },
                             textStyle = TextStyle(fontSize = 14.sp)
                         )
+                        ListContent(items = viewModel.pagingDataFlow.collectAsLazyPagingItems())
                     }
                 }
             }
@@ -61,9 +70,45 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ItemRepository(repo: Repo) {
-    Column {
-        Text(text = repo.fullName, color = colorResource(id = R.color.teal_700), fontSize = 20.sp)
-
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, bottom = 8.dp)
+    ) {
+        Text(
+            text = repo.fullName,
+            fontStyle = FontStyle.Normal,
+            color = colorResource(id = R.color.colorPrimary),
+            fontSize = 20.sp
+        )
+        repo.description?.let {
+            Text(
+                text = it,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(top = 10.dp)
+            )
+        }
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "Language:",
+                fontSize = 14.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 20.dp)
+            )
+            repo.language?.let {
+                Text(
+                    text = it, fontSize = 14.sp, textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 20.dp)
+                )
+            }
+        }
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp), color = colorResource(
+                id = R.color.black
+            )
+        )
     }
 }
 
@@ -71,7 +116,7 @@ fun ItemRepository(repo: Repo) {
 fun Greeting(name: String, number: Int) {
     Column(modifier = Modifier.fillMaxSize()) {
         for (i in 0..number)
-            Surface(color = colorResource(id = R.color.teal_700)) {
+            Surface() {
                 Text(
                     fontSize = 14.sp,
                     fontFamily = FontFamily.Monospace,
@@ -86,6 +131,18 @@ fun Greeting(name: String, number: Int) {
 @Composable
 fun DefaultPreview() {
     GitHubRepoSearchTheme {
-        Greeting("Android", 5)
+//        Greeting("Android", 5)
+        ItemRepository(
+            repo = Repo(
+                1,
+                "Scrcpy",
+                "Genymobile/scrcpy",
+                "Display and control your Android Device",
+                "",
+                2000,
+                700,
+                "C"
+            )
+        )
     }
 }
