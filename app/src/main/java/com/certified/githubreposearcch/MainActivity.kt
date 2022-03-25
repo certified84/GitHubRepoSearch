@@ -10,14 +10,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.certified.githubreposearcch.data.model.Repo
 import com.certified.githubreposearcch.ui.theme.GitHubRepoSearchTheme
 
 class MainActivity : ComponentActivity() {
@@ -30,20 +32,30 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    Greeting("Android", 10)
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(top = dimensionResource(id = com.intuit.sdp.R.dimen._16sdp)),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        TextField(value = "Type here", onValueChange = {
-
-                        })
+                        var text by remember { mutableStateOf("Type here...") }
+                        TextField(
+                            value = text,
+                            onValueChange = { text = it },
+                            textStyle = TextStyle(fontSize = 14.sp)
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ItemRepository(repo: Repo) {
+    Column {
+        Text(text = repo.fullName, color = colorResource(id = R.color.teal_700), fontSize = 20.sp)
+
     }
 }
 
