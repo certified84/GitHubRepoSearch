@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class RepoKeys(
     @PrimaryKey(autoGenerate = false)
     val id: String,
-    val prevKey: Int?,
-    val nextKey: Int?
+    val prevPage: Int?,
+    val nextPage: Int?
 )
