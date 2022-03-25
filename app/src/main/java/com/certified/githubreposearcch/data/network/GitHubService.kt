@@ -4,7 +4,7 @@ import com.certified.githubreposearcch.data.model.RepoSearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ApiService {
+interface GitHubService {
     @GET("search/repositories?sort=stars")
     suspend fun searchRepos(
         @Query("q") query: String,

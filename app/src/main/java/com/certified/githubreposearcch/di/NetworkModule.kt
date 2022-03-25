@@ -1,5 +1,7 @@
 package com.certified.githubreposearcch.di
 
+import com.certified.githubreposearcch.data.network.GitHubService
+import com.certified.githubreposearcch.data.repository.GitHubRepository
 import com.certified.githubreposearcch.utils.Config.BASE_URL
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -35,7 +37,16 @@ class NetworkModule {
 //    logger.level = Level.BASIC
 
     @Provides
+    @Singleton
     fun provideClient(logger: HttpLoggingInterceptor): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(logger)
         .build()
+
+    @Provides
+    fun provideGitHubService(retrofit: Retrofit): GitHubService =
+        retrofit.create(GitHubService::class.java)
+
+    @Provides
+    fun provideGitHubRepository(service: GitHubService): GitHubRepository =
+        GitHubRepository(service)
 }
