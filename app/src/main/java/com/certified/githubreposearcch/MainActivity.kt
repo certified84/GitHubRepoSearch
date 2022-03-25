@@ -5,11 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.certified.githubreposearcch.data.model.Repo
@@ -35,11 +37,17 @@ class MainActivity : ComponentActivity() {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(top = dimensionResource(id = com.intuit.sdp.R.dimen._16sdp)),
+                            .padding(
+                                top = dimensionResource(id = com.intuit.sdp.R.dimen._16sdp),
+                                start = dimensionResource(id = com.intuit.sdp.R.dimen._16sdp),
+                                end = dimensionResource(id = com.intuit.sdp.R.dimen._16sdp)
+                            ),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        var text by remember { mutableStateOf("Type here...") }
-                        TextField(
+                        var text by remember { mutableStateOf(TextFieldValue()) }
+                        OutlinedTextField(
+                            label = { Text(text = "GitHub Repository") },
+                            modifier = Modifier.fillMaxWidth(),
                             value = text,
                             onValueChange = { text = it },
                             textStyle = TextStyle(fontSize = 14.sp)
