@@ -26,5 +26,4 @@ object DatabaseModule {
             "github_repo_search_database"
         ).build()
     }
-
 }

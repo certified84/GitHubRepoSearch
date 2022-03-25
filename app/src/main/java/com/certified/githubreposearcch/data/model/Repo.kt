@@ -1,8 +1,12 @@
 package com.certified.githubreposearcch.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "github_search_repo_table")
 data class Repo(
+    @PrimaryKey(autoGenerate = false)
     @field:SerializedName("id") val id: Long,
     @field:SerializedName("name") val name: String,
     @field:SerializedName("full_name") val fullName: String,
