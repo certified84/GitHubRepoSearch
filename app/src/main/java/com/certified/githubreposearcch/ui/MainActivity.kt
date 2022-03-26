@@ -81,67 +81,72 @@ class MainActivity : ComponentActivity() {
 }
 
 //@Composable
-//fun OnClickListener(onClick: (() -> Unit)) {
+//fun OnClickListener(onClick: (() -> Unit)? = null) {
 //
 //}
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ItemRepository(repo: Repo) {
-    Column(
+fun ItemRepository(repo: Repo, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 8.dp, bottom = 8.dp)
     ) {
-        Text(
-            text = repo.fullName,
-            fontStyle = FontStyle.Normal,
-            color = colorResource(id = R.color.colorPrimary),
-            fontSize = 20.sp
-        )
-        repo.description?.let {
+        Column {
             Text(
-                text = it,
-                fontSize = 14.sp,
-                modifier = Modifier.padding(top = 10.dp)
+                text = repo.fullName,
+                fontStyle = FontStyle.Normal,
+                color = colorResource(id = R.color.colorPrimary),
+                fontSize = 20.sp
             )
-        }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = "Language:",
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 20.dp)
-            )
-            repo.language?.let {
+            repo.description?.let {
                 Text(
-                    text = it, fontSize = 14.sp, textAlign = TextAlign.Center,
+                    text = it,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+            }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = "Language:",
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(top = 20.dp)
+                )
+                repo.language?.let {
+                    Text(
+                        text = it, fontSize = 14.sp, textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+                    )
+                }
+                Image(
+                    painter = painterResource(id = R.drawable.ic_star), contentDescription = "",
+                    modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+                )
+                Text(
+                    text = repo.stars.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_git_branch),
+                    contentDescription = "",
+                    modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+                )
+                Text(
+                    text = repo.forks.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
                     modifier = Modifier.padding(start = 4.dp, top = 20.dp)
                 )
             }
-            Image(
-                painter = painterResource(id = R.drawable.ic_star), contentDescription = "",
-                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
-            )
-            Text(
-                text = repo.stars.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
-            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_git_branch), contentDescription = "",
-                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
-            )
-            Text(
-                text = repo.forks.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
-                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp), color = colorResource(
+                    id = R.color.black
+                )
             )
         }
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp), color = colorResource(
-                id = R.color.black
-            )
-        )
     }
 }
 
@@ -175,7 +180,8 @@ fun DefaultPreview() {
                 2000,
                 700,
                 "C"
-            )
+            ),
+            onClick = { }
         )
     }
 }
