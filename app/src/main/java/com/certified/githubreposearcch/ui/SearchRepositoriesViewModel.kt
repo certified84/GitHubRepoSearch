@@ -21,8 +21,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.certified.githubreposearcch.data.model.Repo
 import com.certified.githubreposearcch.data.repository.GitHubRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,9 +42,6 @@ class SearchRepositoriesViewModel @Inject constructor(
     val state: StateFlow<UiState>
 
     val pagingDataFlow: Flow<PagingData<Repo>>
-
-    private val _repos: Flow<PagingData<Repo>>
-//    val repos: LazyPagingItems<Repo> get() = _repos.collectAsLazyPagingItems()
 
     /**
      * Processor of side effects from the UI which in turn feedback into [state]
@@ -74,10 +69,6 @@ class SearchRepositoriesViewModel @Inject constructor(
             .onStart { emit(UiAction.Scroll(currentQuery = lastQueryScrolled)) }
 
         pagingDataFlow = searches
-            .flatMapLatest { searchRepo(queryString = it.query) }
-            .cachedIn(viewModelScope)
-
-        _repos = searches
             .flatMapLatest { searchRepo(queryString = it.query) }
             .cachedIn(viewModelScope)
 

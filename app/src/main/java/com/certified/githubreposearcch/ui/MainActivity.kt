@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -52,6 +54,9 @@ class MainActivity : ComponentActivity() {
                             ),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+
+//                        CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.CenterHorizontally))
+
                         var text by remember { mutableStateOf(TextFieldValue()) }
                         OutlinedTextField(
                             label = { Text(text = "GitHub Repository") },
@@ -67,6 +72,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+//@Composable
+//fun OnClickListener(onClick: (() -> Unit)) {
+//
+//}
 
 @Composable
 fun ItemRepository(repo: Repo) {
@@ -98,9 +108,21 @@ fun ItemRepository(repo: Repo) {
             repo.language?.let {
                 Text(
                     text = it, fontSize = 14.sp, textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 20.dp)
+                    modifier = Modifier.padding(start = 4.dp, top = 20.dp)
                 )
             }
+            Image(painter = painterResource(id = R.drawable.ic_star), contentDescription = "",
+                modifier = Modifier.padding(start = 4.dp, top = 20.dp))
+            Text(
+                text = repo.stars.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+            )
+            Image(painter = painterResource(id = R.drawable.ic_git_branch), contentDescription = "",
+                modifier = Modifier.padding(start = 4.dp, top = 20.dp))
+            Text(
+                text = repo.forks.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
+                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+            )
         }
         Divider(
             modifier = Modifier
