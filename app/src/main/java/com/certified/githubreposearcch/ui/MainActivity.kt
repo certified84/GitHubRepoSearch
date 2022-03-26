@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +65,10 @@ class MainActivity : ComponentActivity() {
                             label = { Text(text = "GitHub Repository") },
                             modifier = Modifier.fillMaxWidth(),
                             value = text,
+                            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                            keyboardActions = KeyboardActions(onSearch = {
+                                viewModel.accept(UiAction.Search(query = text.text))
+                            }),
                             onValueChange = { text = it },
                             textStyle = TextStyle(fontSize = 14.sp)
                         )
@@ -111,14 +118,18 @@ fun ItemRepository(repo: Repo) {
                     modifier = Modifier.padding(start = 4.dp, top = 20.dp)
                 )
             }
-            Image(painter = painterResource(id = R.drawable.ic_star), contentDescription = "",
-                modifier = Modifier.padding(start = 4.dp, top = 20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.ic_star), contentDescription = "",
+                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+            )
             Text(
                 text = repo.stars.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
                 modifier = Modifier.padding(start = 4.dp, top = 20.dp)
             )
-            Image(painter = painterResource(id = R.drawable.ic_git_branch), contentDescription = "",
-                modifier = Modifier.padding(start = 4.dp, top = 20.dp))
+            Image(
+                painter = painterResource(id = R.drawable.ic_git_branch), contentDescription = "",
+                modifier = Modifier.padding(start = 4.dp, top = 20.dp)
+            )
             Text(
                 text = repo.forks.toString(), fontSize = 14.sp, textAlign = TextAlign.Center,
                 modifier = Modifier.padding(start = 4.dp, top = 20.dp)
@@ -138,7 +149,7 @@ fun ItemRepository(repo: Repo) {
 fun Greeting(name: String, number: Int) {
     Column(modifier = Modifier.fillMaxSize()) {
         for (i in 0..number)
-            Surface() {
+            Surface {
                 Text(
                     fontSize = 14.sp,
                     fontFamily = FontFamily.Monospace,
@@ -153,7 +164,7 @@ fun Greeting(name: String, number: Int) {
 @Composable
 fun DefaultPreview() {
     GitHubRepoSearchTheme {
-//        Greeting("Android", 5)
+        Greeting("Android", 5)
         ItemRepository(
             repo = Repo(
                 1,
