@@ -80,11 +80,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-//@Composable
-//fun OnClickListener(onClick: (() -> Unit)? = null) {
-//
-//}
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ItemRepository(repo: Repo, onClick: () -> Unit) {
